@@ -1,0 +1,46 @@
+<app-header titulo="Historial de Cotizaciones" subtitulo="">
+</app-header>
+
+<div class="list-actions">
+  <a routerLink="/nueva-cotizacion" class="btn btn-primary">
+    Nueva Cotización
+  </a>
+</div>
+
+@if (cotizaciones().length === 0) {
+<app-alert mensaje="No existen cotizaciones. ¡Crea una nueva cotización!" tipo="info">
+</app-alert>
+} @else {
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Monto Solicitado</th>
+        <th>Plazo</th>
+        <th>Tasa Anual</th>
+        <th>Cuota Mensual</th>
+        <th>Fecha de Creación</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (cotizacion of cotizaciones(); track cotizacion.id) {
+      <tr>
+        <td class="font-semibold">{{ cotizacion.nombreCliente }}</td>
+        <td>{{ cotizacion.montoSolicitado | currency:'GTQ':'Q':'1.2-2' }}</td>
+        <td>{{ cotizacion.plazoMeses }} meses</td>
+        <td>{{ cotizacion.tasaInteres }}%</td>
+        <td class="cuota-destacada">{{ cotizacion.cuotaMensual | currency:'GTQ':'Q':'1.2-2' }}</td>
+        <td>{{ cotizacion.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+          <a [routerLink]="['/detalle', cotizacion.id]" class="btn btn-secondary btn-sm">
+            🔍 Ver Detalles
+          </a>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+}

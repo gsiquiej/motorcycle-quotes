@@ -1,0 +1,21 @@
+.list-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.cuota-destacada {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: 0.375rem;
+}

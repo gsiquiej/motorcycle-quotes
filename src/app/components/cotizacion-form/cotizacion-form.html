@@ -1,0 +1,120 @@
+<app-header titulo="Nueva Cotización" subtitulo="Ingrese los datos para calcular la cuota mensual.">
+</app-header>
+
+@if (mensajeExito()) {
+<app-alert [mensaje]="mensajeExito()" tipo="success"></app-alert>
+}
+
+<div class="form-layout-container">
+  <!-- Formulario de entrada -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="card form-card">
+    <!-- Campo Nombre -->
+    <div class="form-group">
+      <label for="nombreCliente" class="form-label">Nombre Completo del Cliente</label>
+      <input id="nombreCliente" type="text" formControlName="nombreCliente" class="form-control"
+        placeholder="Ej. Juan Pérez"
+        [class.is-invalid]="form.get('nombreCliente')?.touched && form.get('nombreCliente')?.invalid" />
+      @if (form.get('nombreCliente')?.touched && form.get('nombreCliente')?.invalid) {
+      <div class="form-error">
+        @if (form.get('nombreCliente')?.hasError('required')) {
+        El nombre del cliente es requerido.
+        } @else if (form.get('nombreCliente')?.hasError('pattern')) {
+        El nombre solo debe contener letras y espacios.
+        }
+      </div>
+      }
+    </div>
+
+    <!-- Campo Monto -->
+    <div class="form-group">
+      <label for="montoSolicitado" class="form-label">Monto Solicitado (GTQ)</label>
+      <input id="montoSolicitado" type="number" formControlName="montoSolicitado" class="form-control"
+        placeholder="Ej. 15000"
+        [class.is-invalid]="form.get('montoSolicitado')?.touched && form.get('montoSolicitado')?.invalid" />
+      @if (form.get('montoSolicitado')?.touched && form.get('montoSolicitado')?.invalid) {
+      <div class="form-error">
+        @if (form.get('montoSolicitado')?.hasError('required')) {
+        El monto es requerido.
+        } @else if (form.get('montoSolicitado')?.hasError('min')) {
+        El monto solicitado debe ser mayor que Q0.
+        } @else if (form.get('montoSolicitado')?.hasError('max')) {
+        El monto máximo permitido es Q60,000.
+        }
+      </div>
+      }
+    </div>
+
+    <!-- Fila de Tasa y Plazo -->
+    <div class="form-row">
+      <!-- Campo Tasa -->
+      <div class="form-group flex-1">
+        <label for="tasaInteres" class="form-label">Tasa de Interés Anual (%)</label>
+        <input id="tasaInteres" type="number" formControlName="tasaInteres" class="form-control" placeholder="Ej. 12"
+          [class.is-invalid]="form.get('tasaInteres')?.touched && form.get('tasaInteres')?.invalid" />
+        @if (form.get('tasaInteres')?.touched && form.get('tasaInteres')?.invalid) {
+        <div class="form-error">
+          @if (form.get('tasaInteres')?.hasError('required')) {
+          La tasa es requerida.
+          } @else if (form.get('tasaInteres')?.hasError('min')) {
+          La tasa mínima es 0%.
+          } @else if (form.get('tasaInteres')?.hasError('max')) {
+          La tasa de interés anual no debe exceder el 20%.
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Campo Plazo -->
+      <div class="form-group flex-1">
+        <label for="plazoMeses" class="form-label">Plazo (Meses)</label>
+        <input id="plazoMeses" type="number" formControlName="plazoMeses" class="form-control" placeholder="Ej. 24"
+          [class.is-invalid]="form.get('plazoMeses')?.touched && form.get('plazoMeses')?.invalid" />
+        @if (form.get('plazoMeses')?.touched && form.get('plazoMeses')?.invalid) {
+        <div class="form-error">
+          @if (form.get('plazoMeses')?.hasError('required')) {
+          El plazo es requerido.
+          } @else if (form.get('plazoMeses')?.hasError('min')) {
+          El plazo mínimo es de 1 mes.
+          } @else if (form.get('plazoMeses')?.hasError('max')) {
+          El plazo máximo permitido es de 60 meses.
+          } @else if (form.get('plazoMeses')?.hasError('pattern')) {
+          El plazo debe ser un número entero.
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Botones del formulario -->
+    <div class="form-actions-bar">
+      <button type="button" routerLink="/cotizaciones" class="btn btn-secondary">
+        Cancelar
+      </button>
+      <button type="submit" [disabled]="form.invalid" class="btn btn-primary">
+        Guardar Cotización
+      </button>
+    </div>
+  </form>
+
+  <!-- Tarjeta lateral de cálculo en tiempo real -->
+  <div class="card projection-card">
+
+    <h3>Cuota Mensual Proyectada</h3>
+
+    <div class="projection-value">
+      @if (cuotaProyectada() > 0) {
+      {{ cuotaProyectada() | currency:'GTQ':'Q':'1.2-2' }}
+      } @else {
+      Q0.00
+      }
+    </div>
+
+    <p class="projection-note">
+      @if (form.valid) {
+      Cálculo estimado basado en el sistema francés de amortización.
+      } @else {
+      Ingrese los datos del formulario con valores válidos para estimar la cuota del préstamo.
+      }
+    </p>
+  </div>
+</div>

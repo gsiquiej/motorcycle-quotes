@@ -1,0 +1,87 @@
+@if (cotizacion(); as c) {
+<app-header titulo="Detalle de la Cotización" [subtitulo]="'Cotización realizada para el cliente: ' + c.nombreCliente">
+</app-header>
+
+<div class="detail-actions">
+  <a routerLink="/cotizaciones" class="btn btn-secondary">
+    <span>⬅️</span> Volver al Listado
+  </a>
+</div>
+
+<div class="grid-layout">
+  <!-- Ficha de Datos de la Cotización -->
+  <div class="card summary-card">
+    <h3>Resumen del Préstamo</h3>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <span class="label">Cliente</span>
+        <span class="value font-bold">{{ c.nombreCliente }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Monto Solicitado</span>
+        <span class="value highlight">{{ c.montoSolicitado | currency:'GTQ':'Q':'1.2-2' }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Tasa de Interés Anual</span>
+        <span class="value">{{ c.tasaInteres }}%</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Plazo del Préstamo</span>
+        <span class="value">{{ c.plazoMeses }} meses</span>
+      </div>
+      <div class="summary-item border-top">
+        <span class="label text-primary">Cuota Mensual Estimada</span>
+        <span class="value val-cuota">{{ c.cuotaMensual | currency:'GTQ':'Q':'1.2-2' }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Fecha Cálculo</span>
+        <span class="value">{{ c.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla Desglose Amortización -->
+  <div class="amortization-section">
+    <h3>Plan de pagos</h3>
+    <p class="description">Detalle de los pagos a realizar mes a mes</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Mes</th>
+            <th>Cuota</th>
+            <th>Capital (Abono)</th>
+            <th>Interés (Pago)</th>
+            <th>Saldo Pendiente</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (mes of tablaAmortizacion(); track mes.numeroCuota) {
+          <tr>
+            <td class="font-bold">#{{ mes.numeroCuota }}</td>
+            <td>{{ mes.cuota | currency:'GTQ':'Q':'1.2-2' }}</td>
+            <td class="text-success">{{ mes.capital | currency:'GTQ':'Q':'1.2-2' }}</td>
+            <td class="text-danger">{{ mes.interes | currency:'GTQ':'Q':'1.2-2' }}</td>
+            <td>{{ mes.saldoPendiente | currency:'GTQ':'Q':'1.2-2' }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+} @else {
+<app-header titulo="Cotización no encontrada" subtitulo="Error al cargar la información.">
+</app-header>
+
+<div class="detail-actions">
+  <a routerLink="/cotizaciones" class="btn btn-secondary">
+    <span>⬅️</span> Volver al Listado
+  </a>
+</div>
+
+<app-alert mensaje="La cotización solicitada no existe o no pudo ser cargada. Verifique el enlace e intente nuevamente."
+  tipo="error">
+</app-alert>
+}
