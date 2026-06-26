@@ -8,13 +8,13 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .navbar-brand .brand-text {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #1e293b;
+  color: var(--text-dark);
   letter-spacing: -0.025em;
 }
 
@@ -28,7 +28,7 @@
 
 .nav-link {
   text-decoration: none;
-  color: #64748b;
+  color: var(--text-muted);
   font-weight: 600;
   font-size: 0.925rem;
   padding: 0.5rem 0.85rem;
@@ -37,13 +37,13 @@
 }
 
 .nav-link:hover {
-  color: #0f172a;
-  background-color: #f8fafc;
+  color: var(--text-dark);
+  background-color: var(--bg-color);
 }
 
 .nav-link.active {
-  color: #2563eb;
-  background-color: #eff6ff;
+  color: var(--primary-color);
+  background-color: var(--primary-light);
 }
 
 .main-container {
