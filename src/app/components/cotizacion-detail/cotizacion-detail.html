@@ -49,21 +49,21 @@
       <table>
         <thead>
           <tr>
-            <th>Mes</th>
-            <th>Cuota</th>
-            <th>Capital (Abono)</th>
-            <th>Interés (Pago)</th>
-            <th>Saldo Pendiente</th>
+            <th class="text-center">Mes</th>
+            <th class="text-right">Cuota</th>
+            <th class="text-right">Capital</th>
+            <th class="text-right">Interés</th>
+            <th class="text-right">Saldo</th>
           </tr>
         </thead>
         <tbody>
           @for (mes of tablaAmortizacion(); track mes.numeroCuota) {
           <tr>
-            <td class="font-bold">#{{ mes.numeroCuota }}</td>
-            <td>{{ mes.cuota | currency:'GTQ':'Q':'1.2-2' }}</td>
-            <td class="text-success">{{ mes.capital | currency:'GTQ':'Q':'1.2-2' }}</td>
-            <td class="text-danger">{{ mes.interes | currency:'GTQ':'Q':'1.2-2' }}</td>
-            <td>{{ mes.saldoPendiente | currency:'GTQ':'Q':'1.2-2' }}</td>
+            <td class="font-bold text-center">#{{ mes.numeroCuota }}</td>
+            <td class="text-right">{{ mes.cuota | currency:'GTQ':'Q':'1.2-2' }}</td>
+            <td class="text-success text-right">{{ mes.capital | currency:'GTQ':'Q':'1.2-2' }}</td>
+            <td class="text-danger text-right">{{ mes.interes | currency:'GTQ':'Q':'1.2-2' }}</td>
+            <td class="text-right">{{ mes.saldoPendiente | currency:'GTQ':'Q':'1.2-2' }}</td>
           </tr>
           }
         </tbody>
